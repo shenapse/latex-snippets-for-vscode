@@ -1,0 +1,602 @@
+{
+	// Place your snippets for latex here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// 
+	// begin environment
+	"begin/end": {
+		"prefix": [
+			"@beg",
+			"mbeg"
+		],
+		"body": [
+			"\\begin{${1}}",
+			"$0",
+			"\\end{${1}}"
+		]
+	},
+	// for built-in math environment
+	"begin/end equation": {
+		"prefix": [
+			"@eq",
+			"eq",
+			"meq",
+		],
+		"body": [
+			"\\begin{equation}",
+			"$0",
+			"\\end{equation}"
+		]
+	},
+	"begin/end void equation": {
+		"prefix": [
+			"@eqv",
+			"eqv",
+			"meqv"
+		],
+		"body": [
+			"\\begin{equation*}",
+			"$0",
+			"\\end{equation*}"
+		]
+	},
+	"begin/end aligned": {
+		"prefix": [
+			"@ali",
+			"ali",
+			"mali"
+		],
+		"body": [
+			"\\begin{aligned}",
+			"$0",
+			"\\end{aligned}"
+		]
+	},
+	"begin/end gather": {
+		"prefix": [
+			"@gat",
+			"gat",
+			"mgat",
+		],
+		"body": [
+			"\\begin{gather}",
+			"$0",
+			"\\end{gather}"
+		]
+	},
+	"begin/end gather*": {
+		"prefix": [
+			"@gatv",
+			"gatv",
+			"mgatv",
+			"gav"
+		],
+		"body": [
+			"\\begin{gather*}",
+			"$0",
+			"\\end{gather*}"
+		]
+	},
+	"begin/end cases": {
+		"prefix": [
+			"@cas",
+			"cas",
+			"mcas",
+		],
+		"body": [
+			"\\begin{cases}",
+			"$0",
+			"\\end{cases}"
+		]
+	},
+	"begin/end cases*": {
+		"prefix": [
+			"@casv",
+			"casv",
+			"mcasv",
+			"cav"
+		],
+		"body": [
+			"\\begin{cases*}",
+			"$0",
+			"\\end{cases*}"
+		]
+	},
+	"begin/end enumerate": {
+		"prefix": [
+			"@enu",
+			"enu",
+			"menu",
+			"enm",
+			"menm"
+		],
+		"body": [
+			"\\begin{enumerate}",
+			"$0",
+			"\\end{enumerate}"
+		]
+	},
+	"begin/end enumerate*": {
+		"prefix": [
+			"@enuv",
+			"enuv",
+			"menuv",
+			"enmv",
+			"menmv",
+		],
+		"body": [
+			"\\begin{enumerate*}",
+			"$0",
+			"\\end{enumerate*}"
+		]
+	},
+	"begin/end itemize": {
+		"prefix": [
+			"@itz",
+			"mitz",
+			"itz",
+		],
+		"body": [
+			"\\begin{itemize}",
+			"$0",
+			"\\end{itemize}"
+		]
+	},
+	// for user-defined math environment
+	"begin/end theorem": {
+		"prefix": [
+			"@thm",
+			"mthm",
+			"thm"
+		],
+		"body": [
+			"\\begin{thm}",
+			"$0",
+			"\\end{thm}"
+		]
+	},
+	"begin/end theorem* ": {
+		"prefix": [
+			"@thmv",
+			"mthmv",
+			"mthv",
+			"thmv",
+			"thv"
+		],
+		"body": [
+			"\\begin{thm*}",
+			"$0",
+			"\\end{thm*}"
+		]
+	},
+	"begin/end corollary": {
+		"prefix": [
+			"@cor",
+			"mcor",
+			"cor"
+		],
+		"body": [
+			"\\begin{cor}",
+			"$0",
+			"\\end{cor}"
+		]
+	},
+	"begin/end corollary* ": {
+		"prefix": [
+			"@corv",
+			"corv",
+			"mcorv",
+		],
+		"body": [
+			"\\begin{cor*}",
+			"$0",
+			"\\end{cor*}"
+		]
+	},
+	"begin/end example": {
+		"prefix": [
+			"@ex",
+			"mex",
+			"ex"
+		],
+		"body": [
+			"\\begin{ex}",
+			"$0",
+			"\\fin\\end{ex}"
+		]
+	},
+	"begin/end example* ": {
+		"prefix": [
+			"@exv",
+			"mexv",
+			"exv"
+		],
+		"body": [
+			"\\begin{ex*}",
+			"$0",
+			"\\fin\\end{ex*}"
+		]
+	},
+	"begin/end exercise": {
+		"prefix": [
+			"@exe",
+			"mexe",
+			"exe"
+		],
+		"body": [
+			"\\begin{exe}",
+			"$0",
+			"\\end{exe}"
+		]
+	},
+	"begin/end remark": {
+		"prefix": [
+			"@rem",
+			"rem",
+		],
+		"body": [
+			"\\begin{rem}",
+			"$0",
+			"\\fin\\end{rem}"
+		]
+	},
+	"begin/end remark* ": {
+		"prefix": [
+			"@remv",
+			"remv",
+			"rev"
+		],
+		"body": [
+			"\\begin{rem*}",
+			"$0",
+			"\\fin\\end{rem*}"
+		]
+	},
+	"begin/end definition": {
+		"prefix": [
+			"@dfn",
+			"mdfn",
+			"dfn"
+		],
+		"body": [
+			"\\begin{dfn}",
+			"$0",
+			"\\end{dfn}"
+		]
+	},
+	"begin/end definition*": {
+		"prefix": [
+			"@dfv",
+			"mdfv",
+			"dfv",
+			"mdfnv",
+			"dfnv"
+		],
+		"body": [
+			"\\begin{dfn*}",
+			"$0",
+			"\\end{dfn*}"
+		]
+	},
+	"begin/end proposition": {
+		"prefix": [
+			"@prp",
+			"mprp",
+			"prp",
+		],
+		"body": [
+			"\\begin{prp}",
+			"$0",
+			"\\end{prp}"
+		]
+	},
+	"begin/end proposition*": {
+		"prefix": [
+			"@prpv",
+			"@prv",
+			"prpv",
+			"prv"
+		],
+		"body": [
+			"\\begin{prp*}",
+			"$0",
+			"\\end{prp*}"
+		]
+	},
+	"begin/end lemma": {
+		"prefix": [
+			"@lem",
+			"mlem",
+			"lem",
+		],
+		"body": [
+			"\\begin{lem}",
+			"$0",
+			"\\end{lem}"
+		]
+	},
+	"begin/end lem*": {
+		"prefix": [
+			"@lemv",
+			"@lev",
+			"lemv",
+			"lev"
+		],
+		"body": [
+			"\\begin{lem*}",
+			"$0",
+			"\\end{lem*}"
+		]
+	},
+	"begin/end prf": {
+		"prefix": [
+			"@prf",
+			"mprf",
+			"prf"
+		],
+		"body": [
+			"\\begin{prf}",
+			"$0",
+			"\\qed\\end{prf}"
+		]
+	},
+	"apply/insert math block $$": {
+		"prefix": [
+			"@block",
+			"math-block",
+			"wbl",
+			"mbl"
+		],
+		"body": [
+			"$$ ${1:${TM_SELECTED_TEXT}} $$"
+		],
+	},
+	"inline math $": {
+		"prefix": [
+			"@inline",
+			"math-inline",
+			"winl",
+			"minl"
+		],
+		"body": [
+			"$ ${1:${TM_SELECTED_TEXT}} $"
+		],
+	},
+	// text styles
+	"apply/insert bold text style: \\textbf{}": {
+		"prefix": "@bold",
+		"body": [
+			"\\textbf{${1:${TM_SELECTED_TEXT}}} $0"
+		]
+	},
+	"apply/insert italic text style: \\textit{}": {
+		"prefix": "@italic",
+		"body": [
+			"\\textit{${1:${TM_SELECTED_TEXT}}} $0"
+		],
+		"description": "apply/insert italic text style: \\textit{}"
+	},
+	// braces
+	"underbrace": {
+		"prefix": "@underbrace",
+		"body": [
+			"\\underbrace{${1:${TM_SELECTED_TEXT}}}_{$2} $0"
+		]
+	},
+	"overbrace": {
+		"prefix": "@overbrace",
+		"body": [
+			"\\overbrace{${1:${TM_SELECTED_TEXT}}}^{$2} $0"
+		]
+	},
+	"underset": {
+		"prefix": "@underset",
+		"body": [
+			"\\underset{$1}{${2:${TM_SELECTED_TEXT}}} $0"
+		]
+	},
+	"overset": {
+		"prefix": "@overset",
+		"body": [
+			"\\overset{$1}{${2:${TM_SELECTED_TEXT}}} $0"
+		]
+	},
+	// arithmetic operation
+	"power (selection set at base)": {
+		"prefix": "@power",
+		"body": [
+			"{${1:${TM_SELECTED_TEXT}}}^{$2} $0"
+		],
+	},
+	"power (selection set at power)": {
+		"prefix": "@power",
+		"body": [
+			"{$2}^{${1:${TM_SELECTED_TEXT}}} $0"
+		],
+	},
+	// linear algebra
+	"bold vector": {
+		"prefix": "@vector",
+		"body": [
+			"\\boldsymbol{${1:${TM_SELECTED_TEXT}}} $0"
+		]
+	},
+	"vector 2-dim": {
+		"prefix": "@vec2",
+		"body": [
+			"\\left(\\,$1, \\, $2\\, \\right) $0"
+		],
+	},
+	// iterative operation
+	"sum over": {
+		"prefix": "@sum-over",
+		"body": [
+			"\\sum_{${1:i}=${2:0}}^{${3:\\infty}} $0"
+		]
+	},
+	"integral": {
+		"prefix": "@integral",
+		"body": [
+			"\\int_{${1:0}}^{${2:\\infty}} $0"
+		]
+	},
+	"at": {
+		"prefix": "@at",
+		"body": [
+			"\\rvert_{$1} $0"
+		]
+	},
+	"qed": {
+		"prefix": "qed",
+		"body": [
+			"\\qed"
+		]
+	},
+	"leftarrow": {
+		"prefix": "mot",
+		"body": [
+			"\\leftarrow"
+		]
+	},
+	"direct sum": {
+		"prefix": "dsum",
+		"body": [
+			"\\oplus"
+		]
+	},
+	"inner product": {
+		"prefix": "ip",
+		"body": [
+			"\\ip{$1}{$2}$0"
+		]
+	},
+	"evaluation functional": {
+		"prefix": "eval",
+		"body": [
+			"\\ev{$1}$0"
+		]
+	},
+	// terminology
+	"eigenvalue": {
+		"prefix": "ev",
+		"body": [
+			"eigenvalue"
+		]
+	},
+	"eigenvector": {
+		"prefix": "evec",
+		"body": [
+			"eigenvector"
+		]
+	},
+	"eigenspace": {
+		"prefix": "evs",
+		"body": [
+			"eigenspace"
+		]
+	},
+	"polynomial": {
+		"prefix": "pol",
+		"body": [
+			"polynomial"
+		]
+	},
+	"multiplicity": {
+		"prefix": "mul",
+		"body": [
+			"multiplicity"
+		]
+	},
+	"non-degenerate": {
+		"prefix": "nond",
+		"body": [
+			"non-degenerate"
+		]
+	},
+	"isomorphic": {
+		"prefix": "isom",
+		"body": [
+			"isomorphic"
+		]
+	},
+	"isomorphism": {
+		"prefix": "isomism",
+		"body": [
+			"isomorphism"
+		]
+	},
+	"injective": {
+		"prefix": "inj",
+		"body": [
+			"injective"
+		]
+	},
+	"surjective": {
+		"prefix": "sur",
+		"body": [
+			"surjective"
+		]
+	},
+	"bijective": {
+		"prefix": "bir",
+		"body": [
+			"bijective"
+		]
+	},
+	"bilinear": {
+		"prefix": "bilinear",
+		"body": [
+			"bilinear"
+		]
+	},
+	"Hermitian": {
+		"prefix": "herm",
+		"body": [
+			"Hermitian"
+		]
+	},
+	"orthonormal": {
+		"prefix": "orth",
+		"body": [
+			"orthonormal"
+		]
+	},
+	"with respect to": {
+		"prefix": "wrt",
+		"body": [
+			"with respect to"
+		]
+	},
+	"topology": {
+		"prefix": "tpl",
+		"body": [
+			"topology"
+		]
+	},
+	"topological vector space": {
+		"prefix": "tvs",
+		"body": [
+			"topological vector space"
+		]
+	},
+	"Hausdorff": {
+		"prefix": "haus",
+		"body": [
+			"Hausdorff"
+		]
+	},
+	"such that": {
+		"prefix": "st",
+		"body": [
+			"such that"
+		]
+	},
+	"topological space": {
+		"prefix": "ts",
+		"body": [
+			"topological space"
+		],
+		"scope": "tex,latex"
+	},
+}

@@ -1,0 +1,531 @@
+# `_`: snippet argument, T: trigger key needed
+
+global
+function math(context) {
+    return context.scopes.some(s => s.startsWith("meta.math")) && !context.scopes.some(s => s.startsWith("comment") || s.startsWith("meta.text.normal.tex"));
+}
+endglobal
+
+global
+function text(context) {
+    return !context.scopes.some(s => s.startsWith("meta.math") || s.startsWith("meta.embedded") || s.startsWith("source"));
+}
+endglobal
+
+snippet beg "[G] begin/end" w
+\\begin{$1}
+	$0
+\\end{$1}
+endsnippet
+
+snippet ;; "[G] math inline" A
+\( $0 \)
+endsnippet
+
+snippet `([\\a-zA-Z]+);;` "[G] convert math inline" A
+`` rv = `\\( ${m[1]} \\)` ``
+endsnippet
+
+snippet mc "[G] Math centered" w
+\[
+	$1
+\]
+endsnippet
+
+context math(context)
+snippet `M([\ pbvBV])(\d)(\d)(.)([bn])` "[G] Matrix" A
+``
+type = m[1] === ' ' ? '' : m[1]
+n = 1
+res = `\\begin{${type}matrix}`
+res += m[5] == "b" ? "\n" : ''
+for (let i = 0; i < m[2]; i++) {
+	for (let j = 0; j < m[3]; j++) {
+		res += snip.tabstop(n++, m[4])
+		if (j + 1 != m[3]) {
+			res += " & "
+		} else {
+			if (i + 1 != m[2]) {
+				res += "\\\\\\\\"
+			}
+			res += m[5] == "b" ? "\n" : ''
+		}
+	}
+}
+res += `\\end{${type}matrix}`
+rv = res
+``
+endsnippet
+
+context math(context)
+snippet `lr([\)\]\>\}vV])` "[G] Left-right" A
+`` trans = {")": ["(", ")"], "]": ["[", "]"], ">": ["<", ">"], "}": ["{", "}"], "v": ["\\lvert", "\\rvert"], "V": ["\\lVert", "\\rVert"]}
+rv = `\\left${trans[m[1]][0]} ${snip.tabstop(1)} \\right${trans[m[1]][1]}` ``
+endsnippet
+
+context math(context)
+snippet `(?<![\\a-zA-Z])z([a-zA-Z])(?![a-zA-Z])` "[G] Greek letter" A
+`` trans = {"a": "\\alpha", "b": "\\beta", "g": "\\gamma", "G": "\\Gamma", "d": "\\delta", "D": "\\Delta", "e": "\\epsilon", "E": "\\varepsilon", "z": "\\zeta", "h": "\\eta", "t": "\\theta", "T": "\\Theta", "k": "\\kappa", "i": "\\iota", "l": "\\lambda", "L": "\\Lambda", "m": "\\mu", "n": "\\nu", "x": "\\xi", "X": "\\Xi", "p": "\\pi", "P": "\\Pi", "r": "\\rho", "s": "\\sigma", "S": "\\Sigma", "o": "\\omega", "O": "\\Omega", "c": "\\chi", "f": "\\phi", "F": "\\varphi", "y": "\\upsilon", "Y": "\\Upsilon", "v": "\\psi", "V": "\\Psi", "u": "\\tau" }
+rv = (trans[m[1]] || ("z" + m[1])) ``
+endsnippet
+
+context math(context)
+snippet ssm "[G] Sum" wA
+\\sum_{${1:i}=${2:1}}^{${3:\\infty}} 
+endsnippet
+
+context math(context)
+snippet ppr "[G] Product" wA
+\\prod_{${1:i}=${2:1}}^{${3:n}} 
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)lim` "[G] Limit" wA
+\\lim_{${1:x} \\to ${2:\infty}} 
+endsnippet
+
+context math(context)
+snippet alim "[G] Arrow limit" wA
+\\xrightarrow[${1:x} \\to ${2:\infty}]{} 
+endsnippet
+
+context math(context)
+snippet dint "[G] Integral" wA
+\\int_{${1:-\\infty}}^{${2:\\infty}} 
+endsnippet
+
+context math(context)
+snippet `\b([A-Z])#` "[G] Math bb" A
+`` rv = `\\mathbb{${m[1]}}` ``
+endsnippet
+
+context math(context)
+snippet `\b([A-Z])@` "[G] Math scr" A
+`` rv = `\\mathscr{${m[1]}}` ``
+endsnippet
+
+context math(context)
+snippet `\\mathbb{([A-Z])}#` "[G] Math cal (F##)" A
+`` rv = `\\mathcal{${m[1]}}` ``
+endsnippet
+
+context math(context)
+snippet `(\\mathbb{[A-Z]})(_[+-])?(\^\*)?([+-])` "[G] Math bb +/- modifier" A
+`` rv = m[1] + "_" + m[4] + (m[3] || "") ``
+endsnippet
+
+context math(context)
+snippet `(\\mathbb{[A-Z]})(_[+-])?\*` "[G] Math bb * modifier" A
+`` rv = m[1] + (m[2] || "") + "^*" ``
+endsnippet
+
+context math(context)
+snippet mrm "[G] Math rm" Aw
+\\mathrm{$1}
+endsnippet
+
+context math(context)
+snippet __ "[G] Subscript" iA
+_{$1}
+endsnippet
+
+context math(context)
+snippet `(\B\\[A-Za-z]+|\b\d*[A-Za-z])(\d)` "[G] Auto subscript" A
+`` rv = m[1] + "_" + m[2] ``
+endsnippet
+
+context math(context)
+snippet `(\B\\[A-Za-z]+|\b\d*[A-Za-z])_(\d\d)` "[G] Auto subscript 2" A
+`` rv = `${m[1]}_{${m[2]}}` ``
+endsnippet
+
+context math(context)
+snippet sq "[G] Square" iA
+^2
+endsnippet
+
+context math(context)
+snippet cb "[G] Cube" iA
+^3
+endsnippet
+
+context math(context)
+priority 2
+snippet ;pp "[G] Superscript with ()" iA
+^{($1)}
+endsnippet
+
+context math(context)
+snippet iv "[G] Inverse" iA
+^{-1}
+endsnippet
+
+context math(context)
+snippet trsp "[G] transpose" iA
+^{\\T}
+endsnippet
+
+context math(context)
+snippet -- "[G] Superscript" iA
+^{$1}
+endsnippet
+
+context math(context)
+snippet `((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\w+\}|\w))*)\/$|(\(((?:\([^()]*\)|[^()])*)\))\/$` "[G] Fraction auto" A
+\\frac{`` rv = m[1] || m[10] ``}{$1}
+endsnippet
+
+context math(context)
+snippet ff "[G] Fraction" wA
+\\frac{$1}{$2}
+endsnippet
+
+context math(context)
+snippet `\((((?:\([^()]*\)|[^()])*))\)rt` "[G] Square root auto" A
+\\sqrt{`` rv = m[1] ``}
+endsnippet
+
+context math(context)
+snippet `\\sqrt(?:\[\d\])?\{(.*)\}(\d)` "[G] N root auto / modify N" A
+\\sqrt[`` rv = m[2] ``]{`` rv = m[1] ``}
+endsnippet
+
+context math(context)
+snippet srt "[G] Square root" A
+\\sqrt{$1}
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)(?<!\\mathrm\{)(Vect|rg)` "[G] Special commands" A
+`` rv = `\\mathrm{${m[1]}}` ``
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)(?<!\\mathrm\{)(le|ge|to|not|in|dim|deg|ker|det|arg|max|min|sin|cos|tan|cot|ln|log|exp|perp|cup|cap|sim|pm|iff|mid|Im|Re)` "[G] Commands space" A
+`` rv = `\\${m[1]} ` ``
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)(?<!\\mathrm\{)(bar|dot|hat)` "[G] Commands (rm) argument" A
+`` rv = `\\${m[1]}{${snip.tabstop(1)}}` ``
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)a(sin|cos|tan)` "[G] Arc-trigo" A
+`` rv = `\\arc${m[1]} ` ``
+endsnippet
+
+context math(context)
+snippet xn "[G] x_n" wA
+x_n
+endsnippet
+
+context math(context)
+snippet xi "[G] x_i" wA
+x_i
+endsnippet
+
+# Superscript
+context math(context)
+snippet `[_\s]?([()a-z\\]+)([+-])([()\\a-z1-9]+);p` "[G] ^{(n+d)}" A
+`` rv = `^{(${m[1]}${m[2]}${m[3]})}` ``
+endsnippet
+
+# Subscript
+context math(context)
+snippet `[_\s]?([()a-z\\]+)([+-])([()\\a-z1-9]+);u` "[G] _{n+d}" A
+`` rv = `_{${m[1]}${m[2]}${m[3]}}` ``
+endsnippet
+
+# subscript
+context math(context)
+snippet `([a-zA-Z])([ijkn])\2` "[G] a_k" A
+`` rv = `${m[1]}_${m[2]}` ``
+endsnippet
+
+context math(context)
+priority 2
+snippet `[_]?([ijknm])p(\d)` "[G] _{k+d}" A
+`` rv = `_{${m[1]}+${m[2]}}` ``
+endsnippet
+
+context math(context)
+priority 2
+snippet `[_]?([ijknm])m(\d)` "[G] _{k-d}" A
+`` rv = `_{${m[1]}-${m[2]}}` ``
+endsnippet
+
+context math(context)
+priority 2
+snippet `[_]?np(\d)` "[G] _{n+d}" A
+`` rv = `_{n+${m[1]}}` ``
+endsnippet
+
+context math(context)
+priority 2
+snippet `[_]?nm(\d)` "[G] _{n-d}" iA
+`` rv = `_{n-${m[1]}}` ``
+endsnippet
+
+context math(context)
+priority 2
+snippet `[_]?ip(\d)` "[G] _{i+d}" iA
+`` rv = `_{i+${m[1]}}` ``
+endsnippet
+
+context math(context)
+priority 2
+snippet `[_]?im(\d)` "[G] _{i-d}" iA
+`` rv = `_{i-${m[1]}}` ``
+endsnippet
+
+context math(context)
+snippet yn "[G] y_n" wA
+y_n
+endsnippet
+
+context math(context)
+snippet yi "[G] y_i" wA
+y_i
+endsnippet
+
+context math(context)
+snippet .. "[G] Ldots" A
+\\ldots
+endsnippet
+
+context math(context)
+snippet ,. "[G] Ldots with comma" A
+,\\ldots,
+endsnippet
+
+context math(context)
+snippet imm "[G] Implies" Aw
+\\implies 
+endsnippet
+
+context math(context)
+snippet iib "[G] Implied by" wA
+\\impliedby 
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)ssb` "[G] Subset" wA
+\\subset 
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)ssp` "[G] Supset" wA
+\\supset 
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)sbn` "[G] Subset" wA
+\\subsetneq
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)ovl` "[G] Overline" wA
+\\overline{$1}
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)cir` "[G] Circle" wA
+\\circ 
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)nne` "[G] Not equal" wA
+\\neq 
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)nni` "[G] Opposite in" wA
+\\ni
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)nin` "[G] Not in" wA
+\\notin
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)0z` "[G] Zero set" wA
+\\{0\\} 
+endsnippet
+
+context math(context)
+snippet app "[G] Almost equal" wA
+\\approx 
+endsnippet
+
+context math(context)
+snippet iinf "[G] Infinity" wA
+\\infty
+endsnippet
+
+context math(context)
+snippet mpt "[G] Mapsto" A
+\\mapsto 
+endsnippet
+
+context math(context)
+snippet ee "[G] Exists" wA
+\\exists 
+endsnippet
+
+context math(context)
+snippet fa "[G] For all" wA
+\\forall 
+endsnippet
+
+context math(context)
+snippet xx "[G] Cross" A
+\\times 
+endsnippet
+
+context math(context)
+snippet oxx "[G] OCross" A
+\\otimes 
+endsnippet
+
+context math(context)
+snippet cd "[G] cdot" iA
+\\cdot 
+endsnippet
+
+context math(context)
+snippet sdc "[G] cdots" iA
+\\cdots 
+endsnippet
+
+context math(context)
+snippet sdv "[G] vdots" iA
+\\vdots 
+endsnippet
+
+context math(context)
+snippet sdd "[G] ddots" iA
+\\ddots 
+endsnippet
+
+context math(context)
+snippet Lra "[G] Leftrightarrow" wA
+\\Leftrightarrow 
+endsnippet
+
+context math(context)
+snippet lra "[G] leftrightarrow" wA
+\\leftrightarrow 
+endsnippet
+
+context math(context)
+snippet qq "[G] Quad" wA
+\\quad 
+endsnippet
+
+context math(context)
+snippet stm "[G] Setminus" A
+\\setminus 
+endsnippet
+
+context math(context)
+snippet sst "[G] Set" wA
+\\{$1\\}
+endsnippet
+
+context math(context)
+snippet 0n "[G] Null set" wA
+\\varnothing
+endsnippet
+
+context math(context)
+snippet dsp "[G] Displaystyle" wA
+\\displaystyle 
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)dd([a-z])` "[G] Differential" A
+`` rv = `\\,d${m[1]}` ``
+endsnippet
+
+context math(context)
+snippet vv "[G] Vector" wA
+\\vv{$1}
+endsnippet
+
+context math(context)
+snippet `(\\vv\{\w+?\})([a-zA-Z\d])` "[G] Vector auto subscript" wA
+`` rv = `${m[1]}_${m[2]}` ``
+endsnippet
+
+context math(context)
+snippet nrm "[G] Norm" wA
+\\norm{$1}
+endsnippet
+
+context math(context)
+snippet adj "[G] Adjoint" wA
+\\adj{$1}
+endsnippet
+
+context math(context)
+snippet tto "[G] to with map" wA
+\\xrightarrow{$1}
+endsnippet
+
+context math(context)
+snippet dsum "[G] direct sum" wA
+\\oplus
+endsnippet
+
+context math(context)
+snippet `(ems)|(emps)` "[G] emptyset" wA
+\\emptyset
+endsnippet
+
+context math(context)
+snippet ope "[G] interior" wA
+\\interior{$1}
+endsnippet
+
+context math(context)
+snippet uuto "[G] upuparrow" wA
+\\upuparrows
+endsnippet
+
+context math(context)
+snippet dwto "[G] downdownarrows" wA
+\\downdownarrows
+endsnippet
+
+context math(context)
+snippet seq "[G] simeq" wA
+\\simeq
+endsnippet
+
+context math(context)
+snippet suc "[G] succ" wA
+\\succ
+endsnippet
+
+# test
+context math(context)
+snippet `(\\?[a-zA-Z]+)\.\.` "[G] repeat by cdots" wA
+`` rv = `${m[1]} \\cdots ${m[1]}` ``
+endsnippet
+
+context math(context)
+snippet dash "[G] Prime" wA
+^{\\prime}
+endsnippet
+
+context math(context)
+snippet abs "[G] Absolute value" wA
+\\abs{$1}
+endsnippet
+
+context math(context)
+snippet tld "[G] Tilde" wA
+\\tilde 
+endsnippet
