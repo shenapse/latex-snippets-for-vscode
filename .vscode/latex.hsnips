@@ -4,11 +4,42 @@
 #			  context def			   |
 #--------------------------------------
 
+# you don't have to read this unless you are going to customise the math context defined below.
+
+# information below is based on VSCode v1.81.1 and LaTeX Workshop Extensionv9.13.14.
+
+# the scope "support.class.math.block.environment" is, in general, inside \begin \end style math environments such as equation as gather. plus, $ $ and \[ \] also has this scope.
+# But the scope for some math environments contains the point outside the environments (i.e., its outer boundary).
+# the scope "meta.math.block.latex" is, in general, inside major math environments mentioned above plus \( \).
+# this scope also has the boundary-inconsistency mentioned above.
+# "punctuation.definition.string.begin.latex" and "punctuation.definition.string.end.latex" are also nuisances. the former (and the latter) could be at, in general, just before and just after a math environment starts (and ends, respectively) but the exact realm of its scope depends on individual math environment used.
+# So the math context everyone would agreed upon is the union of these math block minus their boundaries, sacrificing the very first and the last point of some math environments.
+
+# The definition of math contex below is loose in that it does not eliminate "punctuation.definition.string.end.latex" to ensure a wider math environments, taking the risk of the "boundary" problem.
+# this definition, in my experience, causes little trouble if you use \( \) and equation (and gather) environment as the primary math environments.
+# If you are using $-based math environments, trying a more loose definition would be an option.
+
+# running "Developer: Inspect Editor Tokens and Scopes" yourself in a tex code to help you understand math context.
+
 global
 function math(context) {
-    return context.scopes.some(s => s.startsWith("meta.math")) && !context.scopes.some(s => s.startsWith("comment") || s.startsWith("meta.text.normal.tex"));
+    return context.scopes.some(s => s.startsWith("support.class.math.block.environment"))
+	&& context.scopes.some(s => s.startsWith("meta.math.block.latex"))
+	// comment out below if you would like a more loose math context
+	&& ! context.scopes.some(s => s.startsWith("punctuation.definition.string.begin.latex"))
+	// uncomment below for a more strict math context
+	//&& ! context.scopes.some(s => s.startsWith("punctuation.definition.string.end.latex"))
+	&& ! context.scopes.some(s => s.startsWith("comment"));
 }
 endglobal
+
+# the definition for math(context) by Hsnips extension
+# 
+# global
+# function math(context) {
+#     return context.scopes.some(s => s.startsWith("meta.math"));
+# }
+# endglobal
 
 global
 function text(context) {
@@ -192,7 +223,7 @@ snippet `(\\mathbb{[A-Z]})(_[+-])?\*` " [HS] Math bb * modifier" A
 endsnippet
 
 #-------------------------------------- 
-#			   Shortcut				   |
+#   Commands & their Abbreviations	  |
 #--------------------------------------
 
 # not in -> \notin
@@ -208,27 +239,41 @@ endsnippet
 context math(context)
 priority 2
 snippet `\\in\st` "[HS] Integral" A
-\\int
+\\int 
+endsnippet
+
+# ad-hoc solution for \inf: rewrite \in f -> \inf
+context math(context)
+priority 2
+snippet `\\in\sf` "[HS] Infimum" A
+\\inf 
+endsnippet
+
+# ad-hoc solution for \interior: rewrite \int e -> \interior
+context math(context)
+priority 2
+snippet `\\int\se` "[HS] Interior" A
+\\interior 
 endsnippet
 
 # ad-hoc solution for \supp: rewrite \sup p -> \supp
 context math(context)
 priority 2
 snippet `\\sup\sp` "[HS] Support" A
-\\supp
+\\supp 
 endsnippet
 
 # \sim + eq -> \simeq
 context math(context)
 priority 2
 snippet `\b(?<=\\)(sim|subset|supset|succ|prec)\s{1,2}(neq|eq)` " [HS] \\commands + (n)eq" A
-``rv = `${m[1]}${m[2]}` ``
+``rv = `${m[1]}${m[2]} ` ``
 endsnippet
 
 # ker -> \ker
 context math(context)
 priority 1
-snippet `\b(?<!\\)(?<!\\mathrm\{)(le|ge|div|to|not|in|sup|inf|dim|deg|ker|range|grad|rot|Div|rank|diag|det|arg|max|min|argmax|argmin|sin|cos|tan|cot|ln|log|exp|perp|cup|cap|sim|pm|iff|mid|Im|Re|succ|prec|circ|neq|ni|lim|sum|prod|const)` " [HS] Commands space" A
+snippet `\b(?<!\\)(?<!\\mathrm\{)(le|ge|div|to|not|in|sup|dim|deg|ker|range|grad|rot|Div|rank|diag|det|arg|max|min|argmax|argmin|sin|cos|tan|cot|ln|log|exp|perp|cup|cap|sim|pm|iff|mid|Im|Re|succ|prec|circ|neq|ni|lim|sum|prod|const)` " [HS] Commands space" A
 `` rv = `\\${m[1]} ` ``
 endsnippet
 
@@ -240,7 +285,7 @@ endsnippet
 
 # imp ->  \implies
 context math(context)
-snippet `\b(?<!\\)(?<!\\mathrm\{)(lhs|rhs|imp|imb|uuto|ddto|ssb|ssp|sbn|stm|app|oo|mpt|ee|fa|xx|oxx|o\+|opx|dom|codom|tr|codim|Div|lra|Lra)` " [HS] Short for Commands" A
+snippet `\b(?<!\\)(?<!\\mathrm\{)(lhs|rhs|imp|imb|uuto|ddto|ssb|ssp|sbn|stm|app|oo|mpt|ee|fa|xx|oxx|o\+|opx|dom|codom|tr|codim|Div|lra|Lra)` " [HS] Abbreviations for Commands" A
 `` trans = {
 	"lhs":"\\LHS",
 	"rhs":"\\RHS",
@@ -273,15 +318,13 @@ endsnippet
 
 # xto -> \xrightarrow{}
 context math(context)
-snippet `\b(?<!\\)(?<!\\mathrm\{)(xto|xot|ovl|ope|mrm|tit|tbf|eqby)` " [HS] Short for Commands with argument" A
+snippet `\b(?<!\\)(?<!\\mathrm\{)(xto|xot|ovl|ope|mrm|eqby)` " [HS] Abbreviations for Commands with argument" A
 `` trans = {
 	"xto": "\\xrightarrow",
 	"xot": "\\xleftarrow",
 	"ovl": "\\overline",
 	"ope": "\\interior",
 	"mrm": "\\mathrm",
-	"tit": "\\textit",
-	"tbf": "\\textbf",
 	"eqby": "\\equalby",
 }
 rv = `${trans[m[1]]}{${snip.tabstop(1)}} ${snip.tabstop(2)}` ``
@@ -289,7 +332,7 @@ endsnippet
 
 # ff -> frac{}{}
 context math(context)
-snippet `\b(?<!\\)(?<!\\mathrm\{)(uset|oset|ff)` " [HS] Short for Commands with two argument" A
+snippet `\b(?<!\\)(?<!\\mathrm\{)(uset|oset|ff)` " [HS] Abbreviations for Commands with two argument" A
 `` trans = {
 	"uset": "\\underset",
 	"oset": "\\overset",
@@ -334,7 +377,7 @@ endsnippet
 # x^^ -> x^{}
 # x-- -? x^{}
 context math(context)
-snippet `--|\^\^` " [HS] Superscript" A
+snippet `--|\^\^` " [HS] Superscript" iA
 ^{$1} $0
 endsnippet
 
@@ -385,7 +428,7 @@ endsnippet
 
 # .. -> \ldots
 context math(context)
-snippet `\b(?<!\\)\.{2}` " [HS] Ldots" A
+snippet `\b(?<!\\)\.{2}` " [HS] ldots" A
 \\ldots
 endsnippet
 
@@ -462,6 +505,14 @@ endsnippet
 #-------------------------------------- 
 #				  Misc				   |
 #--------------------------------------
+
+snippet `\b(?<!\\)(?<!\\mathrm\{)(tit|tbf)` " [HS] textit textbf" A
+`` trans = {
+	"tit": "\\textit",
+	"tbf": "\\textbf",
+}
+rv = `${trans[m[1]]}{${snip.tabstop(1)}} ${snip.tabstop(2)}` ``
+endsnippet
 
 context math(context)
 snippet `\b(?<!\\)dsum` " [HS] direct sum" wA
