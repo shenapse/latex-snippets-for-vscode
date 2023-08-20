@@ -318,12 +318,11 @@ endsnippet
 
 # xto -> \xrightarrow{}
 context math(context)
-snippet `\b(?<!\\)(?<!\\mathrm\{)(xto|xot|ovl|ope|mrm|eqby)` " [HS] Abbreviations for Commands with argument" A
+snippet `\b(?<!\\)(?<!\\mathrm\{)(xto|xot|ovl|mrm|eqby)` " [HS] Abbreviations for Commands with argument" A
 `` trans = {
 	"xto": "\\xrightarrow",
 	"xot": "\\xleftarrow",
 	"ovl": "\\overline",
-	"ope": "\\interior",
 	"mrm": "\\mathrm",
 	"eqby": "\\equalby",
 }
