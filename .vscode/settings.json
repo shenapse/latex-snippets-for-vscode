@@ -1,0 +1,5 @@
+{
+	// if you write unicode on source codes
+	"editor.unicodeHighlight.ambiguousCharacters": false,
+	//"hsnips.hsnipsPath": ".vscode",
+}

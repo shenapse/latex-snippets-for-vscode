@@ -1,0 +1,45 @@
+[
+	{
+		"key": "alt+l",
+		"command": "jumpToNextSnippetPlaceholder",
+		"when": "editorTextFocus && hasNextTabstop && inSnippetMode"
+	},
+	{
+		"key": "alt+h",
+		"command": "jumpToPrevSnippetPlaceholder",
+		"when": "editorTextFocus && hasPrevTabstop && inSnippetMode"
+	},
+	// disable exisiting keybindings if necessary
+	{
+		"key": "tab",
+		"command": "-jumpToNextSnippetPlaceholder",
+		"when": "editorTextFocus && hasNextTabstop && inSnippetMode"
+	},
+	{
+		"key": "shift+tab",
+		"command": "-jumpToPrevSnippetPlaceholder",
+		"when": "editorTextFocus && hasPrevTabstop && inSnippetMode"
+	},
+	// ---------------- Hyper Snipet extention ----------------
+	{
+		"key": "alt+l",
+		"command": "hsnips.nextPlaceholder",
+		"when": "editorTextFocus && hasNextTabstop && inSnippetMode"
+	},
+	{
+		"key": "alt+h",
+		"command": "hsnips.prevPlaceholder",
+		"when": "editorTextFocus && hasPrevTabstop && inSnippetMode"
+	},
+	// disable exisiting keybindings if necessary
+	{
+		"key": "tab",
+		"command": "-hsnips.nextPlaceholder",
+		"when": "editorTextFocus && hasNextTabstop && inSnippetMode"
+	},
+	{
+		"key": "shift+tab",
+		"command": "-hsnips.prevPlaceholder",
+		"when": "editorTextFocus && hasNextTabstop && inSnippetMode"
+	},
+]
