@@ -1,0 +1,38 @@
+% \usepackage{amsthm}
+% below are just sample.
+% customise them yourself!
+\newtheorem{thm}{Theorem}[section]
+\newtheorem*{thm*}{Theorem}
+
+\newtheorem{prp}[thm]{Proposition}
+\newtheorem*{prp*}{Proposition}
+
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem*{cor*}{Corollary}
+
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem*{lem*}{Lemma}
+
+\newtheorem{dfn}[thm]{Definition}
+\newtheorem*{dfn*}{Definition}
+
+\theoremstyle{definition}
+\newtheorem*{rem*}{Remark}
+\newtheorem{rem}[thm]{Remark}
+
+\theoremstyle{definition}
+\newtheorem{ex}[thm]{Example}
+\newtheorem*{ex*}{Example}
+
+\theoremstyle{definition}
+\newtheorem{exe}{Exercise}
+
+% rename proof env as prf
+\let\oldproof\proof
+\let\endoldproof\endproof
+\renewenvironment{proof}{
+	\begin{prf}
+		}{
+	\end{prf}
+}
+\newenvironment{prf}{\oldproof}{\endoldproof}
