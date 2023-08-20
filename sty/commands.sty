@@ -1,0 +1,46 @@
+% (probably imcomplete) list of commands that appear in snippets but are not defined.
+\newcommand{\LHS}{\text{LHS}}
+\newcommand{\RHS}{\text{RHS}}
+\newcommand{\const}{\mathrm{const}}
+\newcommand{\notni}{\not\owns} % quick solution for backward \notin
+\newcommand{\equalby}[1]{\mathrel{\stackrel{#1}{\resizebox{\widthof{#1}}{\height}{=}}}} % show \text{reason} over "=".
+
+\DeclareMathOperator{\Dom}{Dom}
+\DeclareMathOperator{\CoDom}{CoDom}
+\DeclareMathOperator{\range}{range}
+\DeclareMathOperator{\Div}{div} % \div is reserved for ÷
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\rot}{rot}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\Codim}{Codim}
+\DeclareMathOperator*{\argmin}{arg~min}
+\DeclareMathOperator*{\argmax}{arg~max}
+\DeclareMathOperator{\supp}{supp}
+
+\newcommand{\interior}[1]{#1^{\circ}}
+\newcommand{\adj}[1]{#1^{\star}}
+
+%	physics pacakge contains \abs and \norm
+%	if you use it, then comment out the below
+% ------------------------------------------------
+% 					abs and norm
+% ------------------------------------------------
+%	depends on mathtools pacakge
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+% 	Swap the definition of \abs* and \norm*,
+% 	so that \abs and \norm resizes the size of the brackets,
+% 	and the starred version does not.
+% 	SO USE \abs and \norm
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+%
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+\makeatother
+% ------------------------------------------------
+% 				END abs and norm
+% ------------------------------------------------

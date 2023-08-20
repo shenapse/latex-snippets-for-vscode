@@ -1,0 +1,179 @@
+# `_`: snippet argument, T: trigger key needed
+
+global
+function math(context) {
+    return context.scopes.some(s => s.startsWith("meta.math")) && !context.scopes.some(s => s.startsWith("comment") || s.startsWith("meta.text.normal.tex"));
+}
+endglobal
+
+global
+function text(context) {
+    return !context.scopes.some(s => s.startsWith("meta.math") || s.startsWith("meta.embedded") || s.startsWith("source"));
+}
+endglobal
+
+#-------------------------------------- 
+#	  Experimental: UTF-characters	   |
+#--------------------------------------
+
+# following commands, such as \(utf N), should be defined by yourself
+# all utf-snippets begin with "u" 
+
+context math(context)
+snippet `\b(?<!\\)u([A-Z])#` " [HS] Black-Board Characters" A
+`` unicode_map = {
+    'A': '1D538',
+    'B': '1D539',
+    'C': '2102',
+    'D': '1D53B',
+    'E': '1D53C',
+    'F': '1D53D',
+    'G': '1D53E',
+    'H': '210D',
+    'I': '1D540',
+    'J': '1D541',
+    'K': '1D542',
+    'L': '1D543',
+    'M': '1D544',
+    'N': '2115',
+    'O': '1D546',
+    'P': '2119',
+    'Q': '211A',
+    'R': '211D',
+    'S': '1D54A',
+    'T': '1D54B',
+    'U': '1D54C',
+    'V': '1D54D',
+    'W': '1D55E',
+    'X': '1D55F',
+    'Y': '1D550',
+    'Z': '2124'
+	}
+rv = `\\${String.fromCodePoint(parseInt(unicode_map[m[1]], 16))}` ``
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)uz([a-zGDLPSFYWXQ])` " [HS] Greek letters" A
+``
+unicode_map = {
+    "a": "1D6C2",  // 𝛂
+    "b": "1D6C3",  // 𝛃
+    "g": "1D6C4",  // 𝛄
+    "d": "1D6C5",  // 𝛅
+    "e": "1D6C6",  // 𝛆
+    "z": "1D6C7",  // 𝛇
+    "h": "1D6C8",  // 𝛈
+    "q": "1D6C9",  // 𝛉
+    "i": "1D6CA",  // 𝛊
+    "k": "1D6CB",  // 𝛋
+    "l": "1D6CC",  // 𝛌
+    "m": "1D6CD",  // 𝛍
+    "n": "1D6CE",  // 𝛎
+    "x": "1D6CF",  // 𝛏
+    "o": "1D6D0",  // 𝛐
+    "p": "1D6D1",  // 𝛑
+    "r": "1D6D2",  // 𝛒
+    "s": "1D6D4",  // 𝛔
+    "t": "1D6D5",  // 𝛕
+    "u": "03C5",   // υ (Greek lowercase "upsilon" letter)
+    "f": "1D6DF",  // ɸ
+    "j": "1D6D7",  // 𝛗
+    "c": "1D6D8",  // 𝛘
+    "y": "1D6D9",  // 𝛙
+    "G": "0393",   // Γ (Greek uppercase "gamma" letter)
+    "D": "0394",   // Δ (Greek uppercase "delta" letter)
+    "L": "039B",   // Λ (Greek uppercase "lambda" letter)
+    "P": "03A0",   // Π (Greek uppercase "pi" letter)
+    "S": "03A3",   // Σ (Greek uppercase "sigma" letter)
+    "F": "03A6",   // Φ (Greek uppercase "phi" letter)
+    "Y": "03A8",   // Ψ (Greek uppercase "psi" letter)
+    "W": "03A9",   // Ω (Greek uppercase "omega" letter)
+  	"X": "039E",   // Ξ (Greek uppercase "Xi" letter)
+  	"Q": "0398",   // Θ (Greek uppercase "Theta" letter)
+}
+rv = `\\${String.fromCodePoint(parseInt(unicode_map[m[1]], 16))}` ``
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)u(in|ni|notin|notni|sb|sp|nesb|nesp|eqsb|eqsp)` " [HS] Set Relation" A
+``
+unicode_map = {
+	"in": "2208", 		// ∈
+	"notin": "2209",	// ∉
+	"ni": "220B",		// ∋
+	"notni": "220C",	// ∌
+	"sb": "2282", 		// ⊂
+	"sp": "2283", 		// ⊃
+	"nesb": "228A", 	// ⊊
+	"nesp": "228B", 	// ⊋
+	"eqsb": "2286", 	// ⊆
+	"eqsp": "2287", 	// ⊇
+}
+rv = `\\${String.fromCodePoint(parseInt(unicode_map[m[1]], 16))}` ``
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)u(fa|ee|wed|vee|la|ra|rla|lra|Lla|Lra|Lrla|Llra)` " [HS] Logic" A
+``
+unicode_map = {
+	"fa": "2200",		// ∀
+	"ee": "2203",		// ∃
+	"wed": "2227",		// ∧
+	"vee": "2228",		// ∨
+	"la": "21D0",		// ⇐
+	"ra": "21D2",		// ⇒
+	"rla": "21D4",		// ⇔ 
+	"lra": "21D4",		// ⇔ alias
+	"Lla": "27F8",		// ⟸
+	"Lra": "27F9",		// ⟹
+	"Lrla": "27FA",		// ⟺
+	"Llra": "27FA",		// ⟺ alias
+}
+rv = `\\${String.fromCodePoint(parseInt(unicode_map[m[1]], 16))}` ``
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)u(to|ot|uu|dd|lu|ul|ur|ru|rd|dr|ld|dl|mpt)` " [HS] Arrows" A
+``
+unicode_map = {
+	"ot": "2190", // ←
+	"uu": "2191", // ↑
+	"to": "2192", // →
+	"dd": "2193", // ↓
+	"ul": "2196", // ↖
+	"lu": "2196", // ↖
+	"ur": "2197", // ↗
+	"ru": "2197", // ↗
+	"dr": "2198", // ↘
+	"rd": "2198", // ↘
+	"dl": "2199", // ↙
+	"ld": "2199", // ↙
+	"mpt":"21A6", // ↦
+}
+rv = `\\${String.fromCodePoint(parseInt(unicode_map[m[1]], 16))}` ``
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)u(sim|eq?sim|neq|prop|xx|o\+|ox)` " [HS] Relation" A
+``
+unicode_map = {
+	"sim": "223C",		// ∼
+	"eqsim": "2243",	// ≃
+	"esim": "2243",		// ≃ (alias)
+	"neq": "2260",		// ≠
+	"prop": "221D",		// ∝
+	"xx": "2A09",		// ⨉
+	"o+": "2295",		// ⊕
+	"ox": "2297",		// ⊗
+}
+rv = `\\${String.fromCodePoint(parseInt(unicode_map[m[1]], 16))}` ``
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)u(oo)` " [HS] Misc" A
+``
+unicode_map = {
+    "oo": "0x221E",  // ∞
+}
+rv = `\\${String.fromCodePoint(parseInt(unicode_map[m[1]], 16))}` ``
+endsnippet

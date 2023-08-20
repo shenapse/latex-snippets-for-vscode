@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "table-generator"
+version = "0.1.0"
+description = ""
+authors = ["shena <87386937+Shena4746@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "table_generator"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+black = "^23.7.0"
+flake8 = "^6.1.0"
+isort = "^5.12.0"
+tabulate = "^0.9.0"
+click = "^8.1.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

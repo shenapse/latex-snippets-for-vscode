@@ -1,0 +1,570 @@
+# `_`: snippet argument, T: trigger key needed
+
+#-------------------------------------- 
+#			  context def			   |
+#--------------------------------------
+
+# you don't have to read this unless you are going to customise the math context defined below.
+
+# information below is based on VSCode v1.81.1 and LaTeX Workshop Extensionv9.13.14.
+
+# the scope "support.class.math.block.environment" is, in general, inside \begin \end style math environments such as equation as gather. plus, $ $ and \[ \] also has this scope.
+# But the scope for some math environments contains the point outside the environments (i.e., its outer boundary).
+# the scope "meta.math.block.latex" is, in general, inside major math environments mentioned above plus \( \).
+# this scope also has the boundary-inconsistency mentioned above.
+# "punctuation.definition.string.begin.latex" and "punctuation.definition.string.end.latex" are also nuisances. the former (and the latter) could be at, in general, just before and just after a math environment starts (and ends, respectively) but the exact realm of its scope depends on individual math environment used.
+# So the math context everyone would agreed upon is the union of these math block minus their boundaries, sacrificing the very first and the last point of some math environments.
+
+# The definition of math contex below is loose in that it does not eliminate "punctuation.definition.string.end.latex" to ensure a wider math environments, taking the risk of the "boundary" problem.
+# this definition, in my experience, causes little trouble if you use \( \) and equation (and gather) environment as the primary math environments.
+# If you are using $-based math environments, trying a more loose definition would be an option.
+
+# running "Developer: Inspect Editor Tokens and Scopes" yourself in a tex code to help you understand math context.
+
+global
+function math(context) {
+    return context.scopes.some(s => s.startsWith("support.class.math.block.environment"))
+	&& context.scopes.some(s => s.startsWith("meta.math.block.latex"))
+	// comment out below if you would like a more loose math context
+	&& ! context.scopes.some(s => s.startsWith("punctuation.definition.string.begin.latex"))
+	// uncomment below for a more strict math context
+	//&& ! context.scopes.some(s => s.startsWith("punctuation.definition.string.end.latex"))
+	&& ! context.scopes.some(s => s.startsWith("comment"));
+}
+endglobal
+
+# the definition for math(context) by Hsnips extension
+# 
+# global
+# function math(context) {
+#     return context.scopes.some(s => s.startsWith("meta.math"));
+# }
+# endglobal
+
+global
+function text(context) {
+    return !context.scopes.some(s => s.startsWith("meta.math") || s.startsWith("meta.embedded") || s.startsWith("source"));
+}
+endglobal
+
+#-------------------------------------- 
+#			  Environment			   |
+#--------------------------------------
+
+# ;; -> \(  \) 
+snippet ;; " [HS] math inline" A
+\( $1 \) $0
+endsnippet
+
+# A;; -> \( A \)
+snippet `([\\a-zA-Z]+);;` " [HS] convert math inline" A
+`` rv = `\\( ${m[1]} \\)` ``
+endsnippet
+
+# Mp34xb -> 3x4 pMatrix with all components equal to x
+# Mp -> \begin{pMatrix}
+# Mb -> \begin{pMatrix} etc.
+# the last variable [bn] specifies output style. 
+context math(context)
+snippet `M([\ pbvBV])(\d)(\d)(.)([bn])` " [HS] Matrix" A
+``
+type = m[1] === ' ' ? '' : m[1]
+n = 1
+res = `\\begin{${type}matrix}`
+res += m[5] == "b" ? "\n" : ''
+for (let i = 0; i < m[2]; i++) {
+	for (let j = 0; j < m[3]; j++) {
+		res += snip.tabstop(n++, m[4])
+		if (j + 1 != m[3]) {
+			res += " & "
+		} else {
+			if (i + 1 != m[2]) {
+				res += "\\\\\\\\"
+			}
+			res += m[5] == "b" ? "\n" : ''
+		}
+	}
+}
+res += `\\end{${type}matrix}`
+rv = res
+``
+endsnippet
+
+# lr) -> \left(  \right)
+# and similarly for ]>}vV
+# v and V correspond to vert and Vert
+context math(context)
+snippet `lr([\)\]\>\}vV])` " [HS] Left-right" A
+`` trans = {
+	")": [
+		"(",
+		")"
+	],
+	"]": [
+		"[",
+		"]"
+	],
+	">": [
+		"<",
+		">"
+	],
+	"}": [
+		"{",
+		"}"
+	],
+	"v": [
+		"\\lvert",
+		"\\rvert"
+	],
+	"V": [
+		"\\lVert",
+		"\\rVert"
+	]
+}
+rv = `\\left${trans[m[1]][0]} ${snip.tabstop(1)} \\right${trans[m[1]][1]}` ``
+endsnippet
+
+#-------------------------------------- 
+#			   Character			   |
+#--------------------------------------
+
+# za -> \alpha
+# zG -> Gamma
+context math(context)
+snippet `(?<![\\a-zA-Z])z([a-zA-Z])(?![a-zA-Z])` " [HS] Greek letter" A
+`` trans = {
+	"a": "\\alpha",
+	"b": "\\beta",
+	"g": "\\gamma",
+	"G": "\\Gamma",
+	"d": "\\delta",
+	"D": "\\Delta",
+	"e": "\\epsilon",
+	"E": "\\varepsilon",
+	"z": "\\zeta",
+	"h": "\\eta",
+	"t": "\\theta",
+	"T": "\\Theta",
+	"k": "\\kappa",
+	"i": "\\iota",
+	"l": "\\lambda",
+	"L": "\\Lambda",
+	"m": "\\mu",
+	"n": "\\nu",
+	"x": "\\xi",
+	"X": "\\Xi",
+	"p": "\\pi",
+	"P": "\\Pi",
+	"r": "\\rho",
+	"s": "\\sigma",
+	"S": "\\Sigma",
+	"o": "\\omega",
+	"O": "\\Omega",
+	"c": "\\chi",
+	"f": "\\phi",
+	"F": "\\varphi",
+	"y": "\\upsilon",
+	"Y": "\\Upsilon",
+	"v": "\\psi",
+	"V": "\\Psi",
+	"u": "\\tau"
+}
+rv = (trans[m[1]] || ("z" + m[1])) ``
+endsnippet
+
+# R# -> \mathbb{R}
+context math(context)
+snippet `\b([A-Z])#` " [HS] Math bb" A
+`` rv = `\\mathbb{${m[1]}}` ``
+endsnippet
+
+# Acal -> \mathcal{A}
+context math(context)
+snippet `\b([A-Z])cal` " [HS] Math cal" A
+`` rv = `\\mathbb{${m[1]}}` ``
+endsnippet
+
+# A@ -> \mathscr{A}
+context math(context)
+snippet `\b([A-Z])@` " [HS] Math scr" A
+`` rv = `\\mathscr{${m[1]}}` ``
+endsnippet
+
+# adding # transforms mathbb -> mathcal -> mathscr -> mathbb
+
+# mathbb + # -> mathcal
+context math(context)
+snippet `\\mathbb{([A-Z])}#` " [HS] mathbb -> mathcal" A
+`` rv = `\\mathcal{${m[1]}}` ``
+endsnippet
+
+# \mathcal + # -> mathscr
+context math(context)
+snippet `\\mathcal{([A-Z])}#` " [HS] mathcal -> mathscr" A
+`` rv = `\\mathscr{${m[1]}}` ``
+endsnippet
+
+# \mathscr + # -> mathbb
+context math(context)
+snippet `\\mathscr{([A-Z])}#` " [HS] mathscr -> mathbb" A
+`` rv = `\\mathbb{${m[1]}}` ``
+endsnippet
+
+# \mathbb{R}+ -> \mathbb{R}_+
+context math(context)
+snippet `(\\mathbb{[A-Z]})(_[+-])?(\^\*)?([+-])` " [HS] Math bb +/- modifier" A
+`` rv = m[1] + "_" + m[4] + (m[3] || "") ``
+endsnippet
+
+# \mathbb{R}* -> \mathbb{R}^*
+context math(context)
+snippet `(\\mathbb{[A-Z]})(_[+-])?\*` " [HS] Math bb * modifier" A
+`` rv = m[1] + (m[2] || "") + "^*" ``
+endsnippet
+
+#-------------------------------------- 
+#   Commands & their Abbreviations	  |
+#--------------------------------------
+
+# not in -> \notin
+# priority is needed to win "\not \in"
+# place before snippet in -> \in 
+context math(context)
+priority 2
+snippet `\\not\s(in|ni)` " [HS] Not in Not ni" A
+`` rv = `\\not${m[1]} ` ``
+endsnippet
+
+# ad-hoc solution for \int: rewrite \in t -> \int
+context math(context)
+priority 2
+snippet `\\in\st` "[HS] Integral" A
+\\int 
+endsnippet
+
+# ad-hoc solution for \inf: rewrite \in f -> \inf
+context math(context)
+priority 2
+snippet `\\in\sf` "[HS] Infimum" A
+\\inf 
+endsnippet
+
+# ad-hoc solution for \interior: rewrite \int e -> \interior
+context math(context)
+priority 2
+snippet `\\int\se` "[HS] Interior" A
+\\interior 
+endsnippet
+
+# ad-hoc solution for \supp: rewrite \sup p -> \supp
+context math(context)
+priority 2
+snippet `\\sup\sp` "[HS] Support" A
+\\supp 
+endsnippet
+
+# \sim + eq -> \simeq
+context math(context)
+priority 2
+snippet `\b(?<=\\)(sim|subset|supset|succ|prec)\s{1,2}(neq|eq)` " [HS] \\commands + (n)eq" A
+``rv = `${m[1]}${m[2]} ` ``
+endsnippet
+
+# ker -> \ker
+context math(context)
+priority 1
+snippet `\b(?<!\\)(?<!\\mathrm\{)(le|ge|div|to|not|in|sup|dim|deg|ker|range|grad|rot|Div|rank|diag|det|arg|max|min|argmax|argmin|sin|cos|tan|cot|ln|log|exp|perp|cup|cap|sim|pm|iff|mid|Im|Re|succ|prec|circ|neq|ni|lim|sum|prod|const)` " [HS] Commands space" A
+`` rv = `\\${m[1]} ` ``
+endsnippet
+
+# bar -> \bar{}
+context math(context)
+snippet `\b(?<!\\)(?<!\\mathrm\{)(bar|dot|hat|abs|norm|adj|sqrt)` " [HS] Commands with argument" A
+`` rv = `\\${m[1]}{${snip.tabstop(1)}} ${snip.tabstop(2)}` ``
+endsnippet
+
+# imp ->  \implies
+context math(context)
+snippet `\b(?<!\\)(?<!\\mathrm\{)(lhs|rhs|imp|imb|uuto|ddto|ssb|ssp|sbn|stm|app|oo|mpt|ee|fa|xx|oxx|o\+|opx|dom|codom|tr|codim|Div|lra|Lra)` " [HS] Abbreviations for Commands" A
+`` trans = {
+	"lhs":"\\LHS",
+	"rhs":"\\RHS",
+	"imp": "\\implies",
+	"imb": "\\impliedby",
+	"ssb": "\\subset",
+	"ssp": "\\supset",
+	"stm": "\\setminus",
+	"ee": "\\exists",
+	"fa": "\\forall",
+	"mpt": "\\mapsto",
+	"uuto": "\\upuparrows",
+	"ddto": "\\downdownarrows",
+	"lra": "\\leftrightarrow",
+	"Lra": "\\Leftrightarrow",
+	"oo": "\\infty",
+	"app": "\\approx",
+	"xx": "\\times",
+	"oxx": "\\otimes",
+	"opx": "\\oplus",
+	"o+": "\\oplus", // alias
+	"dom":"\\Dom",
+	"codom":"\\CoDom",
+	"tr":"\\Tr",
+	"codim":"\\CoDim",
+	//"":"\\",
+}
+rv = `${trans[m[1]]} ` ``
+endsnippet
+
+# xto -> \xrightarrow{}
+context math(context)
+snippet `\b(?<!\\)(?<!\\mathrm\{)(xto|xot|ovl|mrm|eqby)` " [HS] Abbreviations for Commands with argument" A
+`` trans = {
+	"xto": "\\xrightarrow",
+	"xot": "\\xleftarrow",
+	"ovl": "\\overline",
+	"mrm": "\\mathrm",
+	"eqby": "\\equalby",
+}
+rv = `${trans[m[1]]}{${snip.tabstop(1)}} ${snip.tabstop(2)}` ``
+endsnippet
+
+# ff -> frac{}{}
+context math(context)
+snippet `\b(?<!\\)(?<!\\mathrm\{)(uset|oset|ff)` " [HS] Abbreviations for Commands with two argument" A
+`` trans = {
+	"uset": "\\underset",
+	"oset": "\\overset",
+	"ff": "\\frac"
+}
+rv = `${trans[m[1]]}{${snip.tabstop(1)}}{${snip.tabstop(2)}} ${snip.tabstop(3)}` ``
+endsnippet
+
+# asin -> \arcsin {}
+context math(context)
+snippet `\b(?<!\\)a(sin|cos|tan)` " [HS] Arc-trigo" A
+`` rv = `\\arc${m[1]} {${snip.tabstop(1)}} ${snip.tabstop(2)}` ``
+endsnippet
+
+#-------------------------------------- 
+#	    subscript and superscript	   |
+#--------------------------------------
+
+# x__ -> x_{} 
+context math(context)
+snippet __ " [HS] Subscript" iA
+_{$1} $0
+endsnippet
+
+# xsq -> x^2
+context math(context)
+snippet sq " [HS] Square" A
+^2
+endsnippet
+
+context math(context)
+snippet cb " [HS] Cube" A
+^3
+endsnippet
+
+# x inv -> x^{-1}
+context math(context)
+snippet `\s*?\\in\s?v` " [HS] Inverse" iA
+^{-1}
+endsnippet
+
+# x^^ -> x^{}
+# x-- -? x^{}
+context math(context)
+snippet `--|\^\^` " [HS] Superscript" iA
+^{$1} $0
+endsnippet
+
+# x1 -> x_1
+context math(context)
+snippet `(\B\\[A-Za-z]+|\b\d*[A-Za-z])(\d)` " [HS] Auto subscript" A
+`` rv = m[1] + "_" + m[2] ``
+endsnippet
+
+# x11 -> x_{11}
+context math(context)
+snippet `(\B\\[A-Za-z]+|\b\d*[A-Za-z])_(\d\d)` " [HS] Auto subscript 2" A
+`` rv = `${m[1]}_{${m[2]}}` ``
+endsnippet
+
+# xNN -> x_n
+context math(context)
+snippet `(\B\\[A-Za-z]+|\b\d*[A-Za-z])([A-Z])\2` " [HS] a_k" A
+`` rv = `${m[1]}_${m[2].toLowerCase()}` ``
+endsnippet
+
+# xIImk -> x_{i-k}
+# xIIpk -> x_{i+k}
+context math(context)
+priority 2
+snippet `(\B\\[A-Za-z]+|\b\d*[A-Za-z])_([0-9a-zA-Z\_\{\}\-\+\*])(m|p)([0-9a-z])` " [HS] _{k-d}" A
+`` trans = {"m": "-", "p": "+"}
+rv = `${m[1]}_{${m[2]}${trans[m[3]]}${m[4]}}` ``
+endsnippet
+
+# convert subscript into superscript, and conversely
+# x_{i+1}tt -> x^{i+1}
+context math(context)
+snippet `(\B\\[A-Za-z]+|\b\d*[\\A-Za-z])(_|\^)([0-9a-zA-Z\\\_\{\}\(\)\-\+\*]+)tt` " [HS] x_k -> x^k" A
+`` trans = {"_": "^", "^": "_"}
+rv = `${m[1]}${trans[m[2]]}${m[3]}` ``
+endsnippet
+
+#-------------------------------------- 
+#				Dots				   |
+#--------------------------------------
+
+# x_{i+1},, -> x_{i+1}, \\cdots, x_{i+1}
+context math(context)
+snippet `(\B\\[A-Za-z]+|\b\d*[\\A-Za-z])(\_|\^)([0-9a-zA-Z\\\_\{\}\(\)\-\+\*]+),,` " [HS] repeat by ldots" wA
+`` rv = `${m[1]}${m[2]}${m[3]}, \\ldots, ${m[1]}${m[2]}${m[3]}` ``
+endsnippet
+
+# .. -> \ldots
+context math(context)
+snippet `\b(?<!\\)\.{2}` " [HS] ldots" A
+\\ldots
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\),\.` " [HS] Ldots with comma" A
+, \\ldots, 
+endsnippet
+
+# sd + [dvlc](dot type) -> \\(dot type)dots
+# sdc -> \cdots
+context math(context)
+snippet `\b(?<!\\)sd([dvlc])` " [HS] cdots" iA
+`` rv = `\\${m[1]}dots` ``
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)dc` " [HS] cdot" iA
+\\cdot 
+endsnippet
+
+#-------------------------------------- 
+#		      Suggestion			   |
+#--------------------------------------
+
+# "_" : modest suggestion
+# "^" : aggressive suggestion  
+
+# --------- suggestion on "_" ---------
+
+# \\sum_ -> \\sum_{i=1}^{\infty}
+context math(context)
+snippet `\\sum\s?_` " [HS] Sum" A
+\\sum_{${1:i}=${2:1}}
+endsnippet
+
+context math(context)
+snippet `\\prod\s?_` " [HS] Product" A
+\\prod_{${1:i}=${2:1}}
+endsnippet
+
+context math(context)
+snippet `\\int\s?_` " [HS] Integral" A
+\\int_{$1}
+endsnippet
+
+context math(context)
+snippet `\\lim\s?_` " [HS] Limit" A
+\\lim_{${1:x} \\to ${2:\infty}} 
+endsnippet
+
+# --------- suggestion on "^" ---------
+
+# \\sum^ -> \\sum_{i=1}^{\infty}
+context math(context)
+snippet `\\sum\s?\\^` " [HS] Sum" wA
+\\sum_{${1:i}=${2:1}}^{${3:\\infty}} 
+endsnippet
+
+context math(context)
+snippet `\\prod\s?\^` " [HS] Product" wA
+\\prod_{${1:i}=${2:1}}^{${3:n}} 
+endsnippet
+
+context math(context)
+snippet `\\to\s?\^` " [HS] Arrow limit" wA
+\\xrightarrow{${1:x} \\to ${2:\infty}}
+endsnippet
+
+context math(context)
+snippet `\\int\s?\^` " [HS] Integral" wA
+\\int_{${1:-\\infty}}^{${2:\\infty}} 
+endsnippet
+
+#-------------------------------------- 
+#				  Misc				   |
+#--------------------------------------
+
+snippet `\b(?<!\\)(?<!\\mathrm\{)(tit|tbf)` " [HS] textit textbf" A
+`` trans = {
+	"tit": "\\textit",
+	"tbf": "\\textbf",
+}
+rv = `${trans[m[1]]}{${snip.tabstop(1)}} ${snip.tabstop(2)}` ``
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)dsum` " [HS] direct sum" wA
+\\oplus
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)emp?t?s` " [HS] emptyset" wA
+\\emptyset
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)ubrace` " [HS] underbrace" wA
+\\underbrace{$1}_{$2} $0
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)obrace` " [HS] overbrace" wA
+\\overbrace{$1}^{$2} $0
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)0z` " [HS] Zero set" wA
+\\{0\\} 
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)qq` " [HS] Quad" wA
+\\quad 
+endsnippet
+
+context math(context)
+snippet `\b(?<!\\)dsp` " [HS] Displaystyle" wA
+\\displaystyle 
+endsnippet
+
+# --------- auto fraction and sqrt ---------
+
+context math(context)
+snippet `((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\w+\}|\w))*)\/$|(\(((?:\([^()]*\)|[^()])*)\))\/$` " [HS] Fraction auto" A
+\\frac{`` rv = m[1] || m[10] ``}{$1} $0
+endsnippet
+
+context math(context)
+snippet `\((((?:\([^()]*\)|[^()])*))\)rt` " [HS] Square root auto" A
+\\sqrt{`` rv = m[1] ``}
+endsnippet
+
+context math(context)
+snippet `\\sqrt(?:\[\d\])?\{(.*)\}(\d)` " [HS] N root auto / modify N" A
+\\sqrt[`` rv = m[2] ``]{`` rv = m[1] ``}
+endsnippet
+
+#-------------------------------------- 
+#	  Experimental: UTF-characters	   |
+#--------------------------------------
