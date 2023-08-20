@@ -1,0 +1,28 @@
+name: Generate release note
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/v')
+    steps:
+      - uses: actions/checkout@v3
+      - name: make tag name variable available
+        run: | 
+          git fetch origin ${{ github.event.pull_request.head.ref }}
+          git checkout ${{ github.event.pull_request.head.ref }}
+          echo "TAG_NAME=`echo '${{ github.event.pull_request.head.ref }}' | sed 's/release\///'`" >> $GITHUB_ENV
+      - name: set tag 
+        run: |
+          git tag ${{ env.TAG_NAME }}
+          git push origin ${{ env.TAG_NAME }}
+      - name: Generate release note
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ env.TAG_NAME }}
+          tag_name: ${{ env.TAG_NAME }}
+          body_path: ${{ github.workspace }}/CHANGELOG.md
