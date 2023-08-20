@@ -7,3 +7,7 @@ poetry run python path/to/scr/json2table.py input.json output.txt
 ```
 
 [data](./data/) directory contains sample files.
+
+## NOTE
+
+This script is for writing a Markdown table in a cheat sheet.
