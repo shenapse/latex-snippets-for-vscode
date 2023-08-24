@@ -1,0 +1,399 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <title>Snippets Reference · HonKit</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 5.0.0">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/honkit-plugin-katex/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="../cheatsheet/cheatsheet.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../cheatsheet/cheatsheet.html">
+            
+                <a href="../cheatsheet/cheatsheet.html">
+            
+                    
+                    Cheat Sheet
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3" data-path="snippets-reference.html">
+            
+                <a href="snippets-reference.html">
+            
+                    
+                    Snippets Reference
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            Published with HonKit
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Snippets Reference</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="snippets-reference">Snippets Reference</h1>
+<p>This document is a collection of descriptions for dynamic snippets.
+It is not comprehensive but (I think) is sufficient to understand the behavior of non-trivial dynamic snippets.</p>
+<ul>
+<li><a href="#snippets-reference">Snippets Reference</a><ul>
+<li><a href="#characters">Characters</a><ul>
+<li><a href="#letter-to-mathxxx">letter to <code>\mathxxx{}</code></a></li>
+<li><a href="#conversion-among-mathxxx">conversion among <code>\mathxxx{}</code></a></li>
+<li><a href="#alphabet-to-greek-letter">alphabet to Greek letter</a></li>
+</ul>
+</li>
+<li><a href="#subscripts-and-superscripts">Subscripts and Superscripts</a><ul>
+<li><a href="#auto-subscript-digit">auto-subscript (digit)</a></li>
+<li><a href="#auto-subscript-lower-case-alphabet">auto-subscript (lower case alphabet)</a></li>
+<li><a href="#modification-of-subscript">modification of subscript</a></li>
+<li><a href="#conversion-between-subscript-and-superscript">conversion between subscript and superscript</a></li>
+</ul>
+</li>
+<li><a href="#dots">Dots</a><ul>
+<li><a href="#repeat-with-ldots">repeat with ldots</a></li>
+</ul>
+</li>
+<li><a href="#math-commands">Math Commands</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="characters">Characters</h2>
+<h3 id="letter-to-mathxxx">letter to <code>\mathxxx{}</code></h3>
+<ul>
+<li>Trigger: an uppercase alphabet (A, for instance) + operator(# or &apos;cal&apos; or @)</li>
+<li>Output: <code>\mathbb{A}</code>, <code>\mathcal{A}</code>, <code>\mathscr{A}</code>, resp</li>
+<li>Example:<ul>
+<li><code>R#</code> -&gt; <code>\mathbb{R}</code></li>
+<li><code>Acal</code> -&gt; <code>\mathcal{A}</code></li>
+<li><code>B@</code> -&gt; <code>\mathscr{B}</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="conversion-among-mathxxx">conversion among <code>\mathxxx{}</code></h3>
+<ul>
+<li>Trigger: <code>\mathxxx{}</code> + #</li>
+<li>Output: <code>\mathbb</code> -&gt; <code>\mathcal</code> -&gt; <code>\mathscr</code> -&gt; <code>\mathbb</code></li>
+<li>Example: <code>\mathbb{A}#</code> -&gt; <code>\mathcal{A}</code></li>
+</ul>
+<h3 id="alphabet-to-greek-letter">alphabet to Greek letter</h3>
+<ul>
+<li>Trigger: z + an alphabet</li>
+<li>Output: corresponding greek letter</li>
+<li>Examples:<ul>
+<li><code>za</code> -&gt; <code>\alpha</code></li>
+<li><code>zG</code> -&gt; <code>\Gamma</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="subscripts-and-superscripts">Subscripts and Superscripts</h2>
+<h3 id="auto-subscript-digit">auto-subscript (digit)</h3>
+<ul>
+<li>Trigger: (a letter or a command) + (digits of length &lt;= 2)</li>
+<li>Output: letter or command with that subscript</li>
+<li>Examples:<ul>
+<li><code>x1</code> -&gt; <code>x_1</code></li>
+<li><code>\ell23</code> -&gt; <code>\ell_{23}</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="auto-subscript-lower-case-alphabet">auto-subscript (lower case alphabet)</h3>
+<ul>
+<li>Trigger: (X: a letter or a command) + (an uppercase alphabet)×2</li>
+<li>Output: X subscripted by the lowercase alphabet</li>
+<li>Examples:<ul>
+<li><code>xNN</code> -&gt; <code>x_n</code></li>
+<li><code>qKK</code> -&gt; <code>q_k</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="modification-of-subscript">modification of subscript</h3>
+<ul>
+<li>Trigger: (a letter or a command with a subscript of depth 1) + (operator &quot;p&quot; or &quot;m&quot;) + (value: a lowercase alphabet or a digit)</li>
+<li>Output: add plus or minus value to the subscript</li>
+<li>Examples:<ul>
+<li><code>x_kp1</code> -&gt; <code>x_{k+1}</code></li>
+<li><code>C_{m}mk</code> -&gt; <code>C_{m-k}</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="conversion-between-subscript-and-superscript">conversion between subscript and superscript</h3>
+<ul>
+<li>Trigger: (a letter or a command with either a subscript or a superscript of depth 1) + tt</li>
+<li>Output: subscript(superscript) is turned to superscript(subscript, resp)</li>
+<li>Example: <code>A^{\ell+1}tt</code> -&gt; <code>A_{\ell+1}</code>, and conversely.</li>
+</ul>
+<h2 id="dots">Dots</h2>
+<h3 id="repeat-with-ldots">repeat with ldots</h3>
+<ul>
+<li>Trigger: (single term not containing a space but space-separated with other terms) + (double comma,,)</li>
+<li>Output: repeat the same term after &quot;, ...,&quot;</li>
+<li>Examples<ul>
+<li><code>A_{i_1}^{j_1}</code>,, -&gt; <code>A_{i_1}^{j_1}, \ldots, A_{i_1}^{j_1}</code></li>
+<li><code>\ell\ell_{i_1}^{j_1},,</code> does not work as they are not properly separated.</li>
+</ul>
+</li>
+</ul>
+<h2 id="math-commands">Math Commands</h2>
+<p>This category includes numerous snippets. For instance, triggers <code>le</code>, <code>ge</code>, <code>div</code>, <code>to</code>, <code>not</code>, <code>in</code>, <code>sup</code>, <code>inf</code>, <code>dim</code>, <code>deg</code>, <code>ker</code>, <code>range</code>, <code>grad</code>, <code>rot</code>, <code>Div</code>, <code>rank</code>, <code>diag</code>, <code>det</code>, <code>arg</code>, <code>max</code>, <code>min</code>, <code>argmax</code>, <code>argmin</code>, <code>sin</code>, <code>cos</code>, <code>tan</code>, <code>cot</code>, <code>ln</code>, <code>log</code>, <code>exp</code>, <code>perp</code>, <code>cup</code>, <code>cap</code>, <code>sim</code>, <code>pm</code>, <code>iff</code>, <code>mid</code>, <code>Im</code>, <code>Re</code>, <code>succ</code>, <code>prec</code>, <code>circ</code>, <code>neq</code>, <code>ni</code>, <code>lim</code>, <code>sum</code>, <code>prod</code>, <code>const</code>, are defined for their commands (e.g., <code>le</code> -&gt; <code>\le</code>).</p>
+<p>Moreover, those snippets that begin with <code>not</code> and <code>in</code> as well as those end with <code>eq</code>, <code>neq</code> are defined in this way. This category includes <code>notin</code>, <code>simeq</code>, <code>subsetneq</code> etc. (More precisely, the trigger for <code>\simeq</code> is defined as <code>\sim</code> + eq, not <code>simeq</code>. The same is true for the other members.) <code>supp</code> also belongs to this category for similar reason.</p>
+<p>There are also a number of abbreviated commands, for instance, <code>emps</code> for <code>\emptyset</code>, <code>oo</code> for <code>\infty</code>, and <code>o+</code> for <code>\oplus</code> and so on.
+The cheat sheet has the (nearly?) complete list for the abbreviated, but the best way to get accurate information is to go to definition of snippets, which is always up-to-date.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../cheatsheet/cheatsheet.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Cheat Sheet">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Snippets Reference","level":"1.3","depth":1,"previous":{"title":"Cheat Sheet","level":"1.2","depth":1,"path":"cheatsheet/cheatsheet.md","ref":"cheatsheet/cheatsheet.md","articles":[]},"dir":"ltr"},"config":{"plugins":["katex"],"root":"_docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"reference/snippets-reference.md","mtime":"2023-08-24T13:31:08.543Z","type":"markdown"},"gitbook":{"version":"5.0.0","time":"2023-08-24T13:31:37.200Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
