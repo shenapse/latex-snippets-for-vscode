@@ -8,8 +8,8 @@
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "honkit build && mv _book docs",
-		"serve": "honkit serve && mv _book docs"
+		"build": "honkit build && bash script/rename.sh",
+		"serve": "honkit serve"
 	},
 	"repository": {
 		"type": "git",
