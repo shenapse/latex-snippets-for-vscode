@@ -1,0 +1,12 @@
+{
+	"root": "_docs",
+	"description": "Docs for Snippets",
+	"title": "Docs for Snippets",
+	"structure": {
+		"readme": "README.md",
+		"summary": "SUMMARY.md"
+	},
+	"plugins": [
+		"katex"
+	]
+}

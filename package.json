@@ -1,0 +1,29 @@
+{
+	"name": "latex-snippets-for-vscode",
+	"version": "1.0.0",
+	"description": "This repository provides a much more efficient method to input LaTeX code in VSCode compared to traditional user-snippets-based input method.",
+	"main": "index.js",
+	"directories": {
+		"doc": "docs"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "honkit build && bash script/rename.sh",
+		"serve": "honkit serve"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Shena4746/latex-snippets-for-vscode.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Shena4746/latex-snippets-for-vscode/issues"
+	},
+	"homepage": "https://github.com/Shena4746/latex-snippets-for-vscode#readme",
+	"devDependencies": {
+		"honkit": "^5.0.0",
+		"honkit-plugin-katex": "^1.1.7"
+	}
+}
