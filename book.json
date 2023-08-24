@@ -1,0 +1,6 @@
+{
+	"root": "_docs",
+	"plugins": [
+		"katex"
+	]
+}
