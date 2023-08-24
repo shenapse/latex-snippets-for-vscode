@@ -3,6 +3,20 @@
 This document is a collection of descriptions for dynamic snippets.
 It is not comprehensive but (I think) is sufficient to understand the behavior of non-trivial dynamic snippets.
 
+- [Snippets Reference](#snippets-reference)
+  - [Characters](#characters)
+    - [letter to `\mathxxx{}`](#letter-to-mathxxx)
+    - [conversion among `\mathxxx{}`](#conversion-among-mathxxx)
+    - [alphabet to Greek letter](#alphabet-to-greek-letter)
+  - [Subscripts and Superscripts](#subscripts-and-superscripts)
+    - [auto-subscript (digit)](#auto-subscript-digit)
+    - [auto-subscript (lower case alphabet)](#auto-subscript-lower-case-alphabet)
+    - [modification of subscript](#modification-of-subscript)
+    - [conversion between subscript and superscript](#conversion-between-subscript-and-superscript)
+  - [Dots](#dots)
+    - [repeat with ldots](#repeat-with-ldots)
+  - [Math Commands](#math-commands)
+
 ## Characters
 
 ### letter to `\mathxxx{}`
