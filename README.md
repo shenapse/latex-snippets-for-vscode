@@ -170,8 +170,8 @@ So suggestion for improvements (whether in the direction of perfection or practi
 
 [my-hsnips]:./.vscode/latex.hsnips
 [my-code-snippets]:./.vscode/latex.code-snippets
-[cheatsheet]:./cheatsheet.md
-[my-reference]:./snippets-reference.md
+[cheatsheet]:https://shena4746.github.io/latex-snippets-for-vscode/cheatsheet/cheatsheet.html
+[my-reference]:https://shena4746.github.io/latex-snippets-for-vscode/reference/snippets-reference.html
 [demo-continuity]:https://user-images.githubusercontent.com/87386937/261810044-f974ba47-6877-4e17-a7f3-d3a8a1bb02a8.gif
 [demo-dual-basis]:https://user-images.githubusercontent.com/87386937/261810046-91c2cadb-f1db-46d1-908b-179645a450f0.gif
 [demo-taylor-expansion]:https://user-images.githubusercontent.com/87386937/261810040-cddb9673-fdda-4377-bf32-b30680cd2cd4.gif
