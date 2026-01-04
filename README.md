@@ -30,7 +30,7 @@ Throughout demos, E represents <kbd>Enter</kbd>, and braces `{}` are not typed i
 
 ### demo 1: definition of continuous real function
 
-`Let U{;;}|be an open subset of {;;}{R#}|.CE A function {;;}f:U to {R#}|is said to be {tit}contnuous at|{;;}{x0}|if for any {;;}{ze}>0|there is {;;}{zd}>0|such that {eqv}{E}{abs}x-x0|<{zd}{imp}{abs}f(x→-f(x0→<{ze}|.`<kbd>Ctrl+S</kbd>, where C represents <kbd>Ctrl</kbd>.
+`Let U{;;}|be an open subset of {;;}{R#}|.CE A function {;;}f:U to {R#}|is said to be {tit}continuous at|{;;}{x0}|if for any {;;}{ze}>0|there is {;;}{zd}>0|such that {eqv}{E}{abs}x-x0|<{zd}{imp}{abs}f(x→-f(x0→<{ze}|.`<kbd>Ctrl+S</kbd>, where C represents <kbd>Ctrl</kbd>.
 
 ![demo 1][demo-continuity]
 ![demo-continuity-png][demo-continuity-png]
